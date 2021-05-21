@@ -20,10 +20,10 @@ const Login = () => {
 
   const handleSubmit = e => {
       e.preventDefault();
-    if (formValues.username === 'Lambda' && formValues.password === 'i<3Lambd4') {
+    if (formValues.username === 'Lambda School' && formValues.password === 'i<3Lambd4') {
       axios
           .post("http://localhost:5000/api/login", formValues)
-          .then((res) =>{
+          .then((res) => {
               window.localStorage.setItem('token', res.data.payload);
               push('/bubblepage');
           })

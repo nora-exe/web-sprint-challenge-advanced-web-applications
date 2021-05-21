@@ -10,6 +10,7 @@ function PrivateRoute({ component: Component, ...rest }) {
             { ...rest }
             render={() => {
                 if (window.localStorage.getItem('token')) {
+                    console.log("here");
                     return <Component/>
                 } else {
                     return <Redirect to="/" />;

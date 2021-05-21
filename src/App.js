@@ -22,12 +22,10 @@ function App() {
         </header> 
 
         <Switch>
-          <Route path="/">
+          <Route exactPath="/">
             <Login />
           </Route>
-          <PrivateRoute path="/bubblepage">
-            <BubblePage />
-          </PrivateRoute>
+          <PrivateRoute path="/bubblepage" component={BubblePage} />
         </Switch>
 
       </div>
