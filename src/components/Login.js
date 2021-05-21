@@ -1,22 +1,67 @@
-import React, { useEffect } from "react";
+// In Login.js, build all UI and state functionality needed to capture a username and password.
+// Make sure that the input for your username and password includes the data-testid="username" and data-testid="password" attributes. These are needed for codegrade testing.
+// Build in functionality that would allow an error to be displayed in the provided p tag if either the username or password is incorrect.
+// Save the token to localStorage.
+
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import axios from "axios";
+
+const initialValues = { username: "", password: "" };
 
 const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
+  const { push } = useHistory();
+  const [formValues, setFormValues] = useState(initialValues);
+  const [error, setError] = useState('');
 
-  useEffect(()=>{
-    // make a post request to retrieve a token from the api
-    // when you have handled the token, navigate to the BubblePage route
-  });
-  
-  const error = "";
-  //replace with error state
+  const handleChanges = e => {
+      setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  };
+
+  const handleSubmit = e => {
+      e.preventDefault();
+    if (formValues.username === 'Lambda' && formValues.password === 'i<3Lambd4') {
+      axios
+          .post("http://localhost:5000/api/login", formValues)
+          .then((res) =>{
+              window.localStorage.setItem('token', res.data.payload);
+              push('/bubblepage');
+          })
+          .catch((err) => console.log(err.message));
+    } else {
+        setError("Username or Password not valid");
+      }
+  };
 
   return (
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
-        <h2>Build login form here</h2>
+        <h2>Log In</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Username</label>
+          <input
+            data-testid="username"
+            id="username"
+            name="username"
+            value={formValues.username}
+            onChange={handleChanges}
+          >
+          </input>
+
+          <label htmlFor="password">Password</label>
+          <input            
+            data-testid="password"
+            id="password"
+            name="password"
+            type="password"
+            value={formValues.password}
+            onChange={handleChanges}
+          >
+          </input>
+
+          <button>Login</button>
+        </form>
       </div>
 
       <p data-testid="errorMessage" className="error">{error}</p>

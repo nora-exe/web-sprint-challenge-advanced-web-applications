@@ -1,4 +1,16 @@
+// Build a axiosWithAuth module to create an instance of axios with the authentication header.
+
+
 import axios from "axios";
 
-//Task List:
-//Build and export a function used to send in our authorization token
+import axios from 'axios';
+
+export const axiosWithAuth = () => {
+    const token = window.localStorage.getItem('token')
+    return axios.create({
+        headers: {
+            Authorization: token,
+        },
+        baseURL: 'http//localhost:5000/',       
+    });
+};
